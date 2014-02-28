@@ -1,0 +1,5 @@
+gem 'sinatra'
+gem 'thin'
+gem 'sinatra-activerecord'
+gem 'sqlite3'
+gem 'httparty'
