@@ -11,6 +11,8 @@ get '/hi' do
   "Hello World!"
 end
 
+##
+
 get '/slack/users' do
   users = @slack.user_list
   return 'API call failed' if users[ 'ok' ] == false
@@ -39,4 +41,11 @@ get '/slack/channel/:name' do
   
   current_history = history[ 'messages' ]
   has_more = history[ 'has_more' ]
+end
+
+##
+
+get '/channel/:name' do
+  current_channel = Channel.find_by( name: params[ :name ] )
+  @all_messages = Message.where( channel_id: current_channel.id ).order( :timestamp )
 end
