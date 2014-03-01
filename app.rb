@@ -1,6 +1,10 @@
 require 'sinatra'
+require 'sinatra/activerecord'
 
-require 'slack'
+set :database, "sqlite3:///db/uh.sqlite3"
+
+require './models'
+require './slack'
 
 before do
   token = 0
