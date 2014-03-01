@@ -18,25 +18,26 @@ end
 ##
 
 get '/slack/users' do
-  users = @slack.user_list
-  return 'API call failed' if users[ 'ok' ] == false
-  
-  users_list = users[ 'members' ]
-  users_list.each do |user|
-    slack_id = user[ 'id' ]
-    name = user[ 'name' ]
-  end
+  slack_api_lists( 'user', 'members', User )
 end
 
 get '/slack/channels' do
-  channels = @slack.channel_list
-  return 'API call failed' if channels[ 'ok' ] == false
+  slack_api_lists( 'channel', 'channels', Channel )
+end
+
+def slack_api_lists( method_name, response_hash, model_class )
+  response = @slack.send "#{method_name}_list"
+  return 'API call failed' if response[ 'ok' ] == false
   
-  channels_list = users[ 'members' ]
-  channels_list.each do |channel|
-    slack_id = channel[ 'id' ]
-    name = channel[ 'name' ]
+  list = response[ response_hash ]
+  list.each do |individual|
+    slack_id = individual[ 'id' ]
+    name = individual[ 'name' ]
+    
+    model_class.create( slack_id: slack_id, name: name )
   end
+  
+  return 'Done'
 end
 
 get '/slack/channel/:name' do
