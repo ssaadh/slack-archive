@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140301060852) do
+ActiveRecord::Schema.define(version: 20140301222019) do
 
   create_table "channels", force: true do |t|
     t.string   "slack_id"
     t.string   "name"
-    t.datetime "last_check"
+    t.decimal  "last_check"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140301060852) do
     t.integer  "user_id"
     t.string   "subtype"
     t.string   "text"
-    t.datetime "timestamp"
+    t.decimal  "timestamp"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
