@@ -11,17 +11,17 @@ before do
   @slack = Slack.new token
 end
 
-get '/hi' do
+get '/hi/?' do
   "Hello World!"
 end
 
 ##
 
-get '/slack/users' do
+get '/slack/users/?' do
   slack_api_lists( 'user', 'members', User )
 end
 
-get '/slack/channels' do
+get '/slack/channels/?' do
   slack_api_lists( 'channel', 'channels', Channel )
 end
 
@@ -40,7 +40,7 @@ def slack_api_lists( method_name, response_hash, model_class )
   return 'Done'
 end
 
-get '/slack/channel/messages/:name' do
+get '/slack/channel/messages/:name/?' do
   current_channel = Channel.find_by( name: params[ :name ] )
   history = nil
   last_message = 0
@@ -96,7 +96,7 @@ get '/slack/channel/messages/:name' do
   return 'Done'
 end
 
-get '/slack/channel/count/:name' do
+get '/slack/channel/count/:name/?' do
   current_channel = Channel.find_by name: params[ :name ]
   history = nil
   last_message = 0
@@ -124,25 +124,25 @@ end
 
 ##
 
-get '/channel/:name' do
+get '/channel/:name/?' do
   current_channel = Channel.find_by name: params[ :name ]
   @messages = Message.where( channel_id: current_channel.id ).order( timestamp: :desc )
   erb :channel
 end
 
-get '/user/:name' do
+get '/user/:name/?' do
   current_user = User.find_by name: params[ :name ]
   @messages = current_user.messages
   erb :user
 end
 
-get '/channels' do
+get '/channels/?' do
   @list = Channel.all
   @url = 'channel'
   erb :list
 end
 
-get '/users' do
+get '/users/?' do
   @list = User.all
   @url = 'user'
   erb :list
