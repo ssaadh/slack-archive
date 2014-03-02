@@ -96,6 +96,32 @@ get '/slack/channel/messages/:name' do
   return 'Done'
 end
 
+get '/slack/channel/count/:name' do
+  current_channel = Channel.find_by name: params[ :name ]
+  history = nil
+  last_message = 0
+  has_more = true
+  message_count = 0
+  
+  loop do
+    last_message = history[ 'messages' ].last[ 'ts' ] if !history.nil?
+    
+    # api call
+    history = @slack.channel_history current_channel.slack_id, last_message
+    return 'API call failed' if history[ 'ok' ] == false
+    
+    # assign
+    current_history = history[ 'messages' ]
+    has_more = history[ 'has_more' ]
+    
+    message_count += current_history.count
+    
+    break if has_more == false
+  end
+  
+  return "#{params[ :name ] }'s message count: #{message_count}"
+end
+
 ##
 
 get '/channel/:name' do
