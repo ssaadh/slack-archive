@@ -8,6 +8,7 @@ require './slack'
 
 before do
   token = 0
+  #token = ENV[ 'token' ]
   @slack = Slack.new token
 end
 
