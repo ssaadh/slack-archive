@@ -1,0 +1,7 @@
+<ul>
+<% @list.each do |single| %>
+  <li>
+    <a href="/<%= @url %>/<%= single.name %>"><%= single.name %></a>
+  </li>
+<% end %>
+</ul>

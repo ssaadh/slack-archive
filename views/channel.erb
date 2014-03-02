@@ -1,0 +1,5 @@
+<% @messages.each do |message|  %>
+  <p>
+    <%= Time.at( message.timestamp ).utc %> | <strong><%= message.user.name %>:</strong> <%= message.text %>
+  </p>
+<% end %>

@@ -125,6 +125,29 @@ end
 ##
 
 get '/channel/:name' do
-  current_channel = Channel.find_by( name: params[ :name ] )
-  @all_messages = Message.where( channel_id: current_channel.id ).order( :timestamp )
+  current_channel = Channel.find_by name: params[ :name ]
+  @messages = Message.where( channel_id: current_channel.id ).order( timestamp: :desc )
+  erb :channel
+end
+
+get '/user/:name' do
+  current_user = User.find_by name: params[ :name ]
+  @messages = current_user.messages
+  erb :user
+end
+
+get '/channels' do
+  @list = Channel.all
+  @url = 'channel'
+  erb :list
+end
+
+get '/users' do
+  @list = User.all
+  @url = 'user'
+  erb :list
+end
+
+get '/' do
+  erb :index
 end
